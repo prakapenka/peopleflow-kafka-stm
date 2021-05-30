@@ -2,13 +2,10 @@ package localhost.config;
 
 
 import localhost.data.Employee;
+import localhost.data.States;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,14 +24,14 @@ public class KafkaConfig {
     private String bootstrapServers;
 
     @Bean
-    public KafkaSender<?, Employee> getKafkaSender() {
+    public KafkaSender<States, Employee> getKafkaSender() {
         Map<String, Object> producerProps = new HashMap<>();
         producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaSerializer.class);
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StatesSerializer.class);
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, EmployeeSerializer.class);
 
-        SenderOptions<Integer, Employee> senderOptions =
-                SenderOptions.<Integer, Employee>create(producerProps)
+        SenderOptions<States, Employee> senderOptions =
+                SenderOptions.<States, Employee>create(producerProps)
                         .maxInFlight(1024);
 
         return KafkaSender.create(senderOptions);

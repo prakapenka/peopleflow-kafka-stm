@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class KafkaDeserializer implements Deserializer<Employee> {
+public class EmployeeDeserializer implements Deserializer<Employee> {
 
     private final ObjectMapper om = new ObjectMapper();
-    Logger LOG = LoggerFactory.getLogger(KafkaDeserializer.class);
+    Logger LOG = LoggerFactory.getLogger(EmployeeDeserializer.class);
 
     @Override
     public Employee deserialize(String s, byte[] bytes) {

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import localhost.data.Employee;
 import org.apache.kafka.common.serialization.Serializer;
 
-public class KafkaSerializer implements Serializer<Employee> {
+public class EmployeeSerializer implements Serializer<Employee> {
 
     private final ObjectMapper om = new ObjectMapper();
 

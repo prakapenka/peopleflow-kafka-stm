@@ -1,6 +1,7 @@
 package localhost.controller;
 
 import localhost.data.Employee;
+import localhost.data.States;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,13 +18,13 @@ import reactor.kafka.sender.SenderResult;
 @RequiredArgsConstructor
 public class EmployeeController {
 
-    private final KafkaSender<?, Employee> sender;
+    private final KafkaSender<States, Employee> sender;
 
     @PutMapping("create")
     public Flux<Employee> createEmployee(@RequestBody Employee employee) {
         log.info("get Employee");
         return sender.send(Mono.just(employee).map(
-                e -> SenderRecord.create("test", null, null, null,
+                e -> SenderRecord.create("test", null, null, States.ADDED,
                         employee, null)))
                 .map(r -> {
                     var m = r.recordMetadata();
