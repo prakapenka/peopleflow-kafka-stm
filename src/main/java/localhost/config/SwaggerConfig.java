@@ -18,8 +18,8 @@ public class SwaggerConfig {
     public Docket api2() {
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder().title("Internal AboCom client api").build())
-                .groupName("AboCom client api")
+                .apiInfo(new ApiInfoBuilder().title("Peopleflow api").build())
+                .groupName("Peopleflow api")
                 .select()
                 .apis(any())
                 .build();
