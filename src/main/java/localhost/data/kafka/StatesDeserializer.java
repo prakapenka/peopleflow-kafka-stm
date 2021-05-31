@@ -1,4 +1,4 @@
-package localhost.config;
+package localhost.data.kafka;
 
 import localhost.data.States;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -13,6 +13,10 @@ public class StatesDeserializer implements Deserializer<States> {
 
     @Override
     public States deserialize(String topic, byte[] data) {
+        if (data == null || data.length < 1) {
+            return null;
+        }
+
         try {
             return States.valueOf(new String(data, StandardCharsets.UTF_8));
         } catch (Exception e) {

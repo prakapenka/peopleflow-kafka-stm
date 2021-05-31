@@ -1,12 +1,11 @@
 package localhost.service;
 
-import localhost.config.EmployeeDeserializer;
-import localhost.config.StatesDeserializer;
-import localhost.data.Employee;
 import localhost.data.States;
+import localhost.data.kafka.EmployeeDeserializer;
+import localhost.data.kafka.EmployeeEvent;
+import localhost.data.kafka.StatesDeserializer;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
@@ -22,7 +21,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
-public class KafkaListenerService {
+public class KafkaListenerComponent {
 
     private final KafkaEventsProcessor function;
 
@@ -37,11 +36,11 @@ public class KafkaListenerService {
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StatesDeserializer.class);
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, EmployeeDeserializer.class);
 
-        ReceiverOptions<States, Employee> receiverOptions =
-                ReceiverOptions.<States, Employee>create(consumerProps)
+        ReceiverOptions<States, EmployeeEvent> receiverOptions =
+                ReceiverOptions.<States, EmployeeEvent>create(consumerProps)
                         .subscription(Collections.singleton("test"));
 
-        Flux<ReceiverRecord<States, Employee>> inboundFlux =
+        Flux<ReceiverRecord<States, EmployeeEvent>> inboundFlux =
                 KafkaReceiver.create(receiverOptions)
                         .receive();
 
@@ -52,7 +51,6 @@ public class KafkaListenerService {
     void destruct() {
         d.dispose();
     }
-
 
 
 }

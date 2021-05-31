@@ -2,6 +2,6 @@ spring:
   kafka:
     producer:
       bootstrap-servers: "127.0.0.1:9093"
-logging:
-  level:
-    ROOT: debug
+#logging:
+#  level:
+#    ROOT: debug

@@ -1,16 +1,15 @@
-package localhost.config;
+package localhost.data.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import localhost.data.Employee;
 import org.apache.kafka.common.serialization.Serializer;
 
-public class EmployeeSerializer implements Serializer<Employee> {
+public class EmployeeEventSerializer implements Serializer<EmployeeEvent> {
 
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
-    public byte[] serialize(String s, Employee employee) {
+    public byte[] serialize(String s, EmployeeEvent employee) {
         try {
             return om.writeValueAsBytes(employee);
         } catch (JsonProcessingException e) {

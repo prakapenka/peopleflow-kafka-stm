@@ -25,17 +25,6 @@ services:
     depends_on:
       - zookeeper
 
-  redis:
-    image: docker.io/bitnami/redis:6.2
-    networks:
-      - peopleflow
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
-    ports:
-      - 127.0.0.1:6379:6379
-
   peopleflow:
     build:
       context: .
