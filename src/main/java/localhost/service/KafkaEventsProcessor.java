@@ -22,12 +22,7 @@ public class KafkaEventsProcessor implements Function<ReceiverRecord<States, Emp
 
     private final StateMachine<States, Event> stateMachine;
 
-    private StateMachinePersister<States, Event, String> stateMachinePersist;
-
-    @Autowired
-    public void setStateMachinePersist(StateMachinePersister<States, Event, String> stateMachinePersist) {
-        this.stateMachinePersist = stateMachinePersist;
-    }
+    private final StateMachinePersister<States, Event, String> stateMachinePersist;
 
     @Override
     public EmployeeEvent apply(ReceiverRecord<States, EmployeeEvent> record) {
@@ -38,6 +33,11 @@ public class KafkaEventsProcessor implements Function<ReceiverRecord<States, Emp
         var email = employee.getEmail();
 
         try {
+            if (event == null) {
+
+            }
+
+
             var stateMachine = resetStateMachineFromStore(email);
             stateMachine.sendEvent(Mono.just(
                     MessageBuilder.withPayload(event).build()

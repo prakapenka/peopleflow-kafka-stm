@@ -1,7 +1,7 @@
 package localhost.data;
 
 public enum Event {
-    CREATED,
+    CREATE,
     CHECK,
     APPROVE,
     ACTIVATE

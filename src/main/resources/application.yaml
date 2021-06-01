@@ -2,6 +2,6 @@ kafka:
   bootstrap-servers: "127.0.0.1:9093"
   topic: "test"
   group: "sample-group"
-#logging:
-#  level:
-#    ROOT: debug
+logging:
+  level:
+    ROOT: info
