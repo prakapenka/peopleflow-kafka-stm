@@ -35,7 +35,7 @@ services:
       - 127.0.0.1:8080:8080
       - 127.0.0.1:18080:18080
     environment:
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:18080"
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:18080"
       - SPRING_PROFILES_ACTIVE=default,docker
       - CONFIG_LOCATION=classpath:/
 
