@@ -15,22 +15,20 @@ import reactor.kafka.receiver.ReceiverRecord;
 import java.util.function.Function;
 
 /**
- * This is simplified example of kafka events listeners.
+ * This is simplified example of kafka events listener.
  *
- * Here for every incoming message from kafka local stateMachine got re-initialized with
+ * For every incoming message from kafka, local stateMachine got re-initialized with
  * context taken from local memory store.
  *
- * Switching contexts for one same instance of state machine gives ability to reuse same
+ * Using one same instance of state machine gives ability to reuse same
  * state machine for different events (different employees).
  *
  * Due to current configuration, this bean of type 'KafkaEventsProcessor' and as far instance of
  * stateMachine both are singletons.
  *
  * Instantiation of new stateMachine per-call could be expensive operation. Compare to switching
- * context for same instance.
+ * context for same state-machine instance.
  *
- * In real production ready implementation, consider to use common pool of stateMachine,
- * to be shared between threads for reactive model of execution.
  *
  */
 @Slf4j
