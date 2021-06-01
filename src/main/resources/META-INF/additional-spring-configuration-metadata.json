@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "kafka.bootstrap-servers",
+      "type": "java.lang.String",
+      "description": "Kafka servers to connect to."
+    },
+    {
+      "name": "kafka.topic",
+      "type": "java.lang.String",
+      "description": "Kafka topic to use, for example: 'test'."
+    },
+    {
+      "name": "kafka.group",
+      "type": "java.lang.String",
+      "description": "Kafka group of listeners, for example 'sample-group'."
+    }
+  ] }

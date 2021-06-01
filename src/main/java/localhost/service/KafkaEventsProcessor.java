@@ -1,6 +1,5 @@
 package localhost.service;
 
-import localhost.data.Employee;
 import localhost.data.Event;
 import localhost.data.States;
 import localhost.data.kafka.EmployeeEvent;
@@ -19,9 +18,10 @@ import java.util.function.Function;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaEventsProcessor implements Function<ReceiverRecord<States, EmployeeEvent>, Employee> {
+public class KafkaEventsProcessor implements Function<ReceiverRecord<States, EmployeeEvent>, EmployeeEvent> {
 
     private final StateMachine<States, Event> stateMachine;
+
     private StateMachinePersister<States, Event, String> stateMachinePersist;
 
     @Autowired
@@ -30,7 +30,7 @@ public class KafkaEventsProcessor implements Function<ReceiverRecord<States, Emp
     }
 
     @Override
-    public Employee apply(ReceiverRecord<States, EmployeeEvent> record) {
+    public EmployeeEvent apply(ReceiverRecord<States, EmployeeEvent> record) {
 
         var value = record.value();
         var employee = value.getEmployee();
@@ -49,10 +49,10 @@ public class KafkaEventsProcessor implements Function<ReceiverRecord<States, Emp
             log.error("Can't process event", e);
         }
 
-        return employee;
+        return value;
     }
 
     private StateMachine<States, Event> resetStateMachineFromStore(String email) throws Exception {
-        return stateMachinePersist.restore(stateMachine, "test:" + email);
+        return stateMachinePersist.restore(stateMachine, email);
     }
 }

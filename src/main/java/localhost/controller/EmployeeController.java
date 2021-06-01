@@ -34,13 +34,13 @@ public class EmployeeController {
         ).map(r -> employee);
     }
 
-    @PostMapping("in-check")
-    public Flux<String> setInCheckEmployee(@RequestBody String email) {
-        var event = new EmployeeEvent().setEvent(Event.CHECK)
+    @PostMapping("update")
+    public Flux<String> sendEmployeeEvent(@RequestParam String email, @RequestParam Event event) {
+        var employeeEvent = new EmployeeEvent().setEvent(event)
                 .setEmployee(new Employee().setEmail(email));
 
         return sender.send(
-                Mono.just(event)
+                Mono.just(employeeEvent)
                         .map(e -> SenderRecord.create("test", null, null,
                                 States.IN_CHECK,
                                 e, null))

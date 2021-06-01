@@ -25,21 +25,21 @@ import java.util.stream.Stream;
 @Configuration
 public class StateMachineConfig {
 
-    @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public ProxyFactoryBean stateMachine() {
-        ProxyFactoryBean pfb = new ProxyFactoryBean();
-        pfb.setTargetSource(poolTargetSource());
-        return pfb;
-    }
-
-    @Bean
-    public CommonsPool2TargetSource poolTargetSource() {
-        CommonsPool2TargetSource pool = new CommonsPool2TargetSource();
-        pool.setMaxSize(3);
-        pool.setTargetBeanName("stateMachineTarget");
-        return pool;
-    }
+//    @Bean
+//    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+//    public ProxyFactoryBean stateMachine() {
+//        ProxyFactoryBean pfb = new ProxyFactoryBean();
+//        pfb.setTargetSource(poolTargetSource());
+//        return pfb;
+//    }
+//
+//    @Bean
+//    public CommonsPool2TargetSource poolTargetSource() {
+//        CommonsPool2TargetSource pool = new CommonsPool2TargetSource();
+//        pool.setMaxSize(3);
+//        pool.setTargetBeanName("stateMachineTarget");
+//        return pool;
+//    }
 
     @Bean(name = "stateMachineTarget")
     @Scope(scopeName = "prototype")
@@ -80,11 +80,11 @@ public class StateMachineConfig {
     This is done just for simplicity to read internal states in controller.
      */
     @Bean
-    public InMemoryStateMachinePersist<States, Event, String> stateMachinePersist() {
-        return new InMemoryStateMachinePersist<>();
+    public InMemoryStateMachinePersist stateMachinePersist() {
+        return new InMemoryStateMachinePersist();
     }
 
-    public static class InMemoryStateMachinePersist<A, B, C> implements StateMachinePersist<States, Event, String> {
+    public static class InMemoryStateMachinePersist implements StateMachinePersist<States, Event, String> {
 
         private final Map<String, StateMachineContext<States, Event>> contexts = new ConcurrentHashMap<>();
 
