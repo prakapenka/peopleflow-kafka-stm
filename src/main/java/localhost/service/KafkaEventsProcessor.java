@@ -5,7 +5,6 @@ import localhost.data.States;
 import localhost.data.kafka.EmployeeEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.persist.StateMachinePersister;
@@ -15,6 +14,25 @@ import reactor.kafka.receiver.ReceiverRecord;
 
 import java.util.function.Function;
 
+/**
+ * This is simplified example of kafka events listeners.
+ *
+ * Here for every incoming message from kafka local stateMachine got re-initialized with
+ * context taken from local memory store.
+ *
+ * Switching contexts for one same instance of state machine gives ability to reuse same
+ * state machine for different events (different employees).
+ *
+ * Due to current configuration, this bean of type 'KafkaEventsProcessor' and as far instance of
+ * stateMachine both are singletons.
+ *
+ * Instantiation of new stateMachine per-call could be expensive operation. Compare to switching
+ * context for same instance.
+ *
+ * In real production ready implementation, consider to use common pool of stateMachine,
+ * to be shared between threads for reactive model of execution.
+ *
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -33,22 +51,15 @@ public class KafkaEventsProcessor implements Function<ReceiverRecord<States, Emp
         var email = employee.getEmail();
 
         try {
-            if (event == null) {
-
-            }
-
-
             var stateMachine = resetStateMachineFromStore(email);
             stateMachine.sendEvent(Mono.just(
                     MessageBuilder.withPayload(event).build()
             )).blockLast();
 
             stateMachinePersist.persist(stateMachine, email);
-
         } catch (Exception e) {
             log.error("Can't process event", e);
         }
-
         return value;
     }
 

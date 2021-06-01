@@ -14,6 +14,7 @@ import org.springframework.statemachine.persist.StateMachinePersister;
 
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -21,6 +22,10 @@ import java.util.stream.Stream;
 @Configuration
 public class StateMachineConfig {
 
+    /*
+    Here we declare only one singleton state machine that will be reused for
+    whole applications, using switching contexts. See code InMemoryStateMachinePersist below.
+     */
     @Bean
     public StateMachine<States, Event> stateMachineTarget() throws Exception {
         StateMachineBuilder.Builder<States, Event> builder = StateMachineBuilder.builder();
@@ -50,6 +55,9 @@ public class StateMachineConfig {
         return builder.build();
     }
 
+    /*
+    Here we configure context persister to use in-memory simple Map implementation
+     */
     @Bean
     public StateMachinePersister<States, Event, String> redisStateMachinePersister(
             StateMachinePersist<States, Event, String> stateMachinePersist) {
@@ -60,11 +68,13 @@ public class StateMachineConfig {
     /*
     Note, here we declare this bean by InMemoryStateMachinePersist class, not by interface itself.
     This is done just for simplicity to read internal states in controller.
+    For product-ready app state can be saved in DB or in-memory source.
      */
     @Bean
     public InMemoryStateMachinePersist stateMachinePersist() {
         return new InMemoryStateMachinePersist();
     }
+
 
     public static class InMemoryStateMachinePersist implements StateMachinePersist<States, Event, String> {
 
@@ -76,7 +86,7 @@ public class StateMachineConfig {
         @Override
         public void write(StateMachineContext<States, Event> context, String contextObj) {
             if (contextObj == null) {
-                throw new RuntimeException("Attempt to same state machine with null conetxt");
+                throw new RuntimeException("Attempt to same state machine with null context");
             }
             contexts.put(contextObj, context);
         }
@@ -92,6 +102,14 @@ public class StateMachineConfig {
                             .setEmail(entry.getKey())
                             .setState(entry.getValue().getState())
                     ).filter(notExisted.negate());
+        }
+
+        public Optional<StateInfo> getStateForEmail(final String email) {
+            return Optional.ofNullable(contexts.get(email))
+                    .map(c -> new StateInfo()
+                            .setState(c.getState())
+                            .setEmail(email)
+                    );
         }
     }
 }

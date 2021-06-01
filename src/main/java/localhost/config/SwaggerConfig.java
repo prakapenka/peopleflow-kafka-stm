@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api2() {
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder().title("Peopleflow api").build())
+                .apiInfo(new ApiInfoBuilder().title("Peopleflow").build())
                 .groupName("Peopleflow api")
                 .select()
                 .apis(any())
