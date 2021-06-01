@@ -1,4 +1,2 @@
-spring:
-  kafka:
-    producer:
-      bootstrap-servers: "kafka:9092"
+kafka:
+  bootstrap-servers: "kafka:9092"
