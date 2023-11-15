@@ -1,5 +1,11 @@
 package localhost.config;
 
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import localhost.data.Event;
 import localhost.data.StateInfo;
 import localhost.data.States;
@@ -11,13 +17,6 @@ import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.config.StateMachineBuilder;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
-
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @Configuration
 public class StateMachineConfig {

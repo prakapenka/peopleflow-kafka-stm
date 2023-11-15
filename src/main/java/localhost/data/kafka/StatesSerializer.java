@@ -1,9 +1,8 @@
 package localhost.data.kafka;
 
+import java.nio.charset.StandardCharsets;
 import localhost.data.States;
 import org.apache.kafka.common.serialization.Serializer;
-
-import java.nio.charset.StandardCharsets;
 
 public class StatesSerializer implements Serializer<States> {
 

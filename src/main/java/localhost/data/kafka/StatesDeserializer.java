@@ -1,11 +1,10 @@
 package localhost.data.kafka;
 
+import java.nio.charset.StandardCharsets;
 import localhost.data.States;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.StandardCharsets;
 
 public class StatesDeserializer implements Deserializer<States> {
 

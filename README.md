@@ -3,7 +3,7 @@
 Simple demo of web application that uses spring-boot, kafka and state-machine to add some employees and changing 
 employees states.
 
-This example requires `java11` `maven` `docker` and `docker compose` to be installed. See how to build and run 
+This example requires `java 17` `maven` `docker` and `docker compose` to be installed. See how to build and run 
 section below.
 
 ## Open Api specificatin
@@ -19,12 +19,12 @@ mvn clean install && docker-compose build && docker-compose up -d --force-recrea
 
 Explanation:
 
-| Command | Purpose |
-| --- | --- |
-| `mvn clean install` | compile and prepare server package  |
-| `docker-compose build` | builds required server docker image |
-| `docker-compose up -d --force-recreate` | runs kafka, zookeeper and server container |
-| `docker logs -f peopleflow` | after start of server container, monitor log container log output |
+| Command                                 | Purpose |
+|-----------------------------------------| --- |
+| `mvn clean install`                     | compile and prepare server package  |
+| `docker compose build`                  | builds required server docker image |
+| `docker compose up -d --force-recreate` | runs kafka, zookeeper and server container |
+| `docker logs -f peopleflow`             | after start of server container, monitor log container log output |
 
 
 ## Rest endpoints

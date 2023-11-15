@@ -5,3 +5,10 @@ kafka:
 logging:
   level:
     ROOT: info
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  swagger-ui:
+    path: /swagger-ui

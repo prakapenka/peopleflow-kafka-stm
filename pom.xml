@@ -9,13 +9,17 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <spring.boot.version>2.5.0</spring.boot.version>
 
-        <lombok.version>1.18.20</lombok.version>
-        <junit.version>5.6.0</junit.version>
+        <spring.boot.version>3.1.5</spring.boot.version>
+        <reactor.kafka.version>1.3.22</reactor.kafka.version>
+
+        <lombok.version>1.18.30</lombok.version>
+        <springdoc.openapi.version>2.2.0</springdoc.openapi.version>
+        <junit.version>5.10.1</junit.version>
         <mockito.version>3.3.3</mockito.version>
 
         <springfox-swagger.version>3.0.0</springfox-swagger.version>
@@ -49,19 +53,14 @@
         <dependency>
             <groupId>io.projectreactor.kafka</groupId>
             <artifactId>reactor-kafka</artifactId>
-            <version>1.3.4</version>
+            <version>${reactor.kafka.version}</version>
         </dependency>
 
         <!-- openapi autoconf -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox-swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>${springdoc.openapi.version}</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -101,6 +100,7 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>

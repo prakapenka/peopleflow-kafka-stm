@@ -1,5 +1,6 @@
 package localhost.service;
 
+import java.util.function.Function;
 import localhost.data.Event;
 import localhost.data.States;
 import localhost.data.kafka.EmployeeEvent;
@@ -11,8 +12,6 @@ import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import reactor.kafka.receiver.ReceiverRecord;
-
-import java.util.function.Function;
 
 /**
  * This is simplified example of kafka events listener.

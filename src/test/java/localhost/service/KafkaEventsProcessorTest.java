@@ -1,11 +1,15 @@
 package localhost.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import localhost.config.StateMachineConfig;
 import localhost.data.Employee;
 import localhost.data.Event;
 import localhost.data.States;
 import localhost.data.kafka.EmployeeEvent;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,16 +21,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.kafka.receiver.ReceiverRecord;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = {StateMachineConfig.class, KafkaEventsProcessor.class})
 public class KafkaEventsProcessorTest {
 
-    private static String EMAIL_1 = "john.smith@example.com";
-    private static String EMAIL_2 = "smith.john@example.com";
+    private static final String EMAIL_1 = "john.smith@example.com";
 
     @Autowired
     private KafkaEventsProcessor processor;
@@ -36,11 +35,6 @@ public class KafkaEventsProcessorTest {
 
     @Mock
     private ReceiverRecord<States, EmployeeEvent> record;
-
-    @AfterEach
-    void afterEach() {
-        reset(record);
-    }
 
     @BeforeEach
     void beforeEach() {
@@ -97,6 +91,7 @@ public class KafkaEventsProcessorTest {
         processor.apply(record);
 
         // send create event for second email
+        String EMAIL_2 = "smith.john@example.com";
         EmployeeEvent event2 = getEvent(EMAIL_2, Event.CREATE);
         when(record.value()).thenReturn(event2);
         processor.apply(record);
